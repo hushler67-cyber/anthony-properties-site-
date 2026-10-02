@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthony Properties &amp; Rentals — Rental Application</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #0E1A2E;
+    --navy-soft: #1C2E4A;
+    --blue: #C9A227;
+    --blue-soft: #E0C067;
+    --bg: #F4F1E8;
+    --panel: #FFFFFF;
+    --field-bg: #FAF8F2;
+    --line: #E3DCC8;
+    --text: #1B1A16;
+    --text-muted: #6B6457;
+    --error: #C24444;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(201,162,39,0.10), transparent 45%),
+      radial-gradient(circle at 100% 20%, rgba(14,26,46,0.06), transparent 40%);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Header / Mark ---------- */
+  .hero{
+    background: #161D29;
+    padding: 48px 20px 40px;
+    text-align: center;
+  }
+  .mark{
+    width: 148px;
+    height: 148px;
+    margin: 0 auto 18px;
+    display:block;
+    border-radius: 6px;
+    box-shadow: 0 0 46px 14px #161D29;
+  }
+  .brand-name{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 26px;
+    color: #F4F1E8;
+    margin: 0;
+  }
+  .brand-tag{
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--blue);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .hero-sub{
+    max-width: 480px;
+    margin: 18px auto 0;
+    color: #B9B4A4;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  /* ---------- Form shell ---------- */
+  .wrap{
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+  form{
+    background: var(--panel);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(14,26,46,0.04), 0 20px 50px -25px rgba(14,26,46,0.35);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .section{
+    padding: 32px 34px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section:last-of-type{ border-bottom: none; }
+  .section-eyebrow{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .section-eyebrow .num{
+    font-family:'Fraunces', serif;
+    font-size: 13px;
+    color: var(--blue);
+    border: 1px solid var(--blue-soft);
+    width: 24px; height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .section-eyebrow h2{
+    font-family:'Fraunces', serif;
+    font-size: 16.5px;
+    font-weight: 600;
+    color: var(--navy);
+    margin:0;
+    letter-spacing: 0.01em;
+  }
+  .section-eyebrow .rule{
+    flex:1;
+    height:1px;
+    background: var(--line);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 14px;
+  }
+  .field{ margin-bottom: 16px; }
+  .grid .field{ margin-bottom: 0; }
+  .field.full{ grid-column: 1 / -1; }
+
+  label{
+    display:block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--navy-soft);
+    margin-bottom: 7px;
+    letter-spacing: 0.01em;
+  }
+  label .opt{
+    font-weight: 400;
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .req{
+    color: var(--error);
+    margin-left: 2px;
+  }
+  .required-note{
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 16px 34px 0;
+  }
+  .required-note .req{ margin-left: 0; margin-right: 2px; }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea{
+    width: 100%;
+    padding: 11px 13px;
+    background: var(--field-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    color: var(--text);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  textarea{ resize: vertical; min-height: 78px; }
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(201,162,39,0.15);
+  }
+  select{ appearance:none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235B6685' stroke-width='1.6' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position: right 13px center; padding-right: 34px; }
+
+  .radio-row, .choice-row{
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .choice{
+    flex: 1 1 auto;
+    min-width: 84px;
+  }
+  .choice input{ position:absolute; opacity:0; width:0; height:0; }
+  .choice label.pill{
+    display:block;
+    text-align:center;
+    padding: 11px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--field-bg);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    margin:0;
+    transition: all .15s;
+  }
+  .choice input:checked + label.pill{
+    border-color: var(--blue);
+    background: rgba(201,162,39,0.10);
+    color: var(--navy);
+    font-weight: 600;
+    box-shadow: 0 0 0 1px var(--blue);
+  }
+
+  .pay-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .pay-grid label.pill{ padding: 14px 10px; }
+
+  small.hint{
+    display:block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .err{
+    display:none;
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 5px;
+  }
+  .field.invalid input,
+  .field.invalid select,
+  .field.invalid textarea{ border-color: var(--error); }
+  .field.invalid .err{ display:block; }
+
+  /* Fee banner */
+  .fee-banner{
+    background: linear-gradient(135deg, var(--navy), #223154);
+    color: #fff;
+    padding: 20px 34px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+  }
+  .fee-banner .amt{
+    font-family:'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 600;
+  }
+  .fee-banner .desc{
+    font-size: 12.5px;
+    color: #C9D5F2;
+    max-width: 320px;
+    line-height:1.5;
+  }
+
+  /* Signature pad */
+  .sig-wrap{
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    background: var(--field-bg);
+    position: relative;
+  }
+  canvas#sigPad{
+    display:block;
+    width: 100%;
+    height: 150px;
+    touch-action: none;
+    cursor: crosshair;
+    border-radius: 8px;
+  }
+  .sig-placeholder{
+    position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+    color: var(--text-muted); font-size: 13px; pointer-events:none;
+  }
+  .sig-actions{
+    display:flex; justify-content: flex-end; margin-top: 8px;
+  }
+  .sig-actions button{
+    background: none; border: none; color: var(--blue); font-size: 12.5px;
+    font-weight: 600; cursor:pointer; padding: 4px 6px;
+  }
+  .sig-actions button:hover{ text-decoration: underline; }
+
+  /* Submit */
+  .submit-area{ padding: 30px 34px 38px; }
+  button#submitBtn{
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 9px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+  }
+  button#submitBtn:hover{ background: #1E2E52; }
+  button#submitBtn:active{ transform: scale(0.99); }
+  button#submitBtn:disabled{ background: #8A93AB; cursor: not-allowed; }
+
+  #statusMsg{
+    text-align:center;
+    margin-top: 14px;
+    font-size: 13.5px;
+    display:none;
+  }
+  #statusMsg.show{ display:block; }
+  #statusMsg.ok{ color:#1F7A4C; }
+  #statusMsg.bad{ color: var(--error); }
+
+  footer{
+    text-align:center;
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 10px 20px 50px;
+  }
+
+  @media (max-width: 560px){
+    .grid, .pay-grid{ grid-template-columns: 1fr; }
+    .section{ padding: 26px 20px; }
+    .fee-banner{ flex-direction:column; align-items:flex-start; padding: 22px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="mark" src="anthony-logo.jpg" alt="Anthony Properties & Rentals">
+  <h1 class="brand-name">Anthony Properties &amp; Rentals</h1>
+  <div class="brand-tag">Rental Application</div>
+  <p class="hero-sub">Complete every field below. A $75 non‑refundable application fee is due after you submit — payment instructions are sent once we receive your form.</p>
+</div>
+
+<div class="wrap">
+  <form id="appForm" novalidate>
+    <div class="required-note"><span class="req">*</span>All fields are required</div>
+
+    <!-- Applicant -->
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">1</span><h2>Applicant</h2><span class="rule"></span></div>
+      <div class="grid">
+        <div class="field">
+          <label for="firstName">First name<span class="req">*</span></label>
+          <input type="text" id="firstName" required>
+          <div class="err">Please enter your first name.</div>
+        </div>
+        <div class="field">
+          <label for="lastName">Last name<span class="req">*</span></label>
+          <input type="text" id="lastName" required>
+          <div class="err">Please enter your last name.</div>
+        </div>
+        <div class="field">
+          <label for="email">Email address<span class="req">*</span></label>
+          <input type="email" id="email" required>
+          <div class="err">Please enter a valid email.</div>
+        </div>
+        <div class="field">
+          <label for="phone">Phone number<span class="req">*</span></label>
+          <input type="tel" id="phone" required placeholder="(587) 000-0000">
+          <div class="err">Please enter a phone number.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Current address -->
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">2</span><h2>Current address</h2><span class="rule"></span></div>
+      <div class="field">
+        <label for="address">Street address<span class="req">*</span></label>
+        <input type="text" id="address" required>
+        <div class="err">Please enter your address.</div>
+      </div>
+      <div class="grid">
+        <div class="field">
+          <label for="city">City<span class="req">*</span></label>
+          <input type="text" id="city" required>
+          <div class="err">Please enter your city.</div>
+        </div>
+        <div class="field">
+          <label for="state">State / Province<span class="req">*</span></label>
+          <input type="text" id="state" required>
+          <div class="err">Please enter your state or province.</div>
+        </div>
+        <div class="field full">
+          <label for="zip">Postal code / ZIP<span class="req">*</span></label>
+          <input type="text" id="zip" required>
+          <div class="err">Please enter your postal code or ZIP.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Household -->
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">3</span><h2>Household</h2><span class="rule"></span></div>
+      <div class="grid">
+        <div class="field">
+          <label for="moveDate">Willing to move in on<span class="req">*</span></label>
+          <input type="date" id="moveDate" required>
+          <div class="err">Please choose a move-in date.</div>
+        </div>
+        <div class="field">
+          <label for="numPeople">Number of people moving in<span class="req">*</span></label>
+          <input type="number" id="numPeople" min="1" required>
+          <div class="err">Please enter a number.</div>
+        </div>
+        <div class="field">
+          <label for="numKids">Number of kids<span class="req">*</span> <span class="opt">(0 if none)</span></label>
+          <input type="number" id="numKids" min="0" required>
+          <div class="err">Please enter a number.</div>
+        </div>
+        <div class="field">
+          <label for="relStatus">Relationship status<span class="req">*</span></label>
+          <select id="relStatus" required>
+            <option value="" disabled selected>Select one</option>
+            <option>Single</option>
+            <option>Married</option>
+            <option>Common-law</option>
+            <option>Divorced</option>
+            <option>Widowed</option>
+            <option>Prefer not to say</option>
+          </select>
+          <div class="err">Please select an option.</div>
+        </div>
+      </div>
+      <div class="field full" style="margin-top:16px;">
+        <label for="reasonLeaving">Reason for leaving present address<span class="req">*</span></label>
+        <textarea id="reasonLeaving" required></textarea>
+        <div class="err">Please tell us why you're leaving.</div>
+      </div>
+      <div class="field full" style="margin-top:16px;">
+        <label>Do you own a car?<span class="req">*</span></label>
+        <div class="choice-row">
+          <div class="choice">
+            <input type="radio" name="ownCar" id="carYes" value="Yes" required>
+            <label class="pill" for="carYes">Yes</label>
+          </div>
+          <div class="choice">
+            <input type="radio" name="ownCar" id="carNo" value="No">
+            <label class="pill" for="carNo">No</label>
+          </div>
+        </div>
+        <div class="err" id="carErr">Please select yes or no.</div>
+      </div>
+    </div>
+
+    <!-- Employment -->
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">4</span><h2>Employment & income</h2><span class="rule"></span></div>
+      <div class="grid">
+        <div class="field">
+          <label for="occupation">Occupation<span class="req">*</span></label>
+          <input type="text" id="occupation" required>
+          <div class="err">Please enter your occupation.</div>
+        </div>
+        <div class="field">
+          <label for="income">Monthly income<span class="req">*</span></label>
+          <input type="text" id="income" required placeholder="$">
+          <div class="err">Please enter your monthly income.</div>
+        </div>
+        <div class="field">
+          <label for="depositDate">Paying deposit on<span class="req">*</span></label>
+          <input type="date" id="depositDate" required>
+          <div class="err">Please choose a date.</div>
+        </div>
+        <div class="field">
+          <label for="rentDate">Paying rent on<span class="req">*</span></label>
+          <input type="date" id="rentDate" required>
+          <div class="err">Please choose a date.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment method -->
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">5</span><h2>Application fee payment method<span class="req">*</span></h2><span class="rule"></span></div>
+      <div class="pay-grid">
+        <div class="choice">
+          <input type="radio" name="payMethod" id="payPaypal" value="PayPal" required>
+          <label class="pill" for="payPaypal">PayPal</label>
+        </div>
+        <div class="choice">
+          <input type="radio" name="payMethod" id="payBank" value="Bank transfer">
+          <label class="pill" for="payBank">Bank transfer</label>
+        </div>
+        <div class="choice">
+          <input type="radio" name="payMethod" id="payId" value="PayID">
+          <label class="pill" for="payId">PayID</label>
+        </div>
+        <div class="choice">
+          <input type="radio" name="payMethod" id="payCardless" value="Cardless cash">
+          <label class="pill" for="payCardless">Cardless cash</label>
+        </div>
+      </div>
+      <div class="err" id="payErr">Please select a payment method.</div>
+    </div>
+
+    <!-- Signature -->
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">6</span><h2>Signature</h2><span class="rule"></span></div>
+      <label>Sign below to confirm all information is accurate<span class="req">*</span></label>
+      <div class="sig-wrap">
+        <canvas id="sigPad"></canvas>
+        <div class="sig-placeholder" id="sigPlaceholder">Draw your signature here</div>
+      </div>
+      <div class="sig-actions"><button type="button" id="clearSig">Clear signature</button></div>
+      <div class="err" id="sigErr">Please provide your signature.</div>
+    </div>
+
+    <div class="fee-banner">
+      <div>
+        <div class="amt">$75</div>
+        <div class="desc">Application fee, due after you submit this form. We'll follow up with payment instructions for your chosen method.</div>
+      </div>
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" id="submitBtn">Submit application</button>
+      <div id="statusMsg"></div>
+    </div>
+  </form>
+  <footer>Anthony Properties &amp; Rentals · your information is sent securely to our team</footer>
+</div>
+
+<script>
+// This page no longer holds a bot token. Submissions are posted to
+// /api/submit — a Cloudflare Pages Function that talks to Telegram
+// using a token stored server-side as an environment variable.
+
+// ---------- Signature pad ----------
+const canvas = document.getElementById('sigPad');
+const ctx = canvas.getContext('2d');
+const placeholder = document.getElementById('sigPlaceholder');
+let drawing = false, hasSignature = false;
+
+function resizeCanvas(){
+  const ratio = window.devicePixelRatio || 1;
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * ratio;
+  canvas.height = rect.height * ratio;
+  ctx.scale(ratio, ratio);
+  ctx.strokeStyle = "#0E1A2E";
+  ctx.lineWidth = 2;
+  ctx.lineCap = "round";
+  ctx.lineJoin = "round";
+}
+window.addEventListener('resize', () => {
+  const data = hasSignature ? canvas.toDataURL() : null;
+  resizeCanvas();
+  if(data){
+    const img = new Image();
+    img.onload = () => ctx.drawImage(img, 0, 0, canvas.width/(window.devicePixelRatio||1), canvas.height/(window.devicePixelRatio||1));
+    img.src = data;
+  }
+});
+resizeCanvas();
+
+function getPos(e){
+  const rect = canvas.getBoundingClientRect();
+  return { x: e.clientX - rect.left, y: e.clientY - rect.top };
+}
+function start(e){
+  drawing = true; hasSignature = true;
+  placeholder.style.display = 'none';
+  canvas.setPointerCapture(e.pointerId);
+  const p = getPos(e);
+  ctx.beginPath();
+  ctx.moveTo(p.x, p.y);
+  e.preventDefault();
+}
+function move(e){
+  if(!drawing) return;
+  const p = getPos(e);
+  ctx.lineTo(p.x, p.y);
+  ctx.stroke();
+  e.preventDefault();
+}
+function end(e){ drawing = false; }
+
+canvas.addEventListener('pointerdown', start);
+canvas.addEventListener('pointermove', move);
+canvas.addEventListener('pointerup', end);
+canvas.addEventListener('pointercancel', end);
+canvas.addEventListener('pointerleave', end);
+
+document.getElementById('clearSig').addEventListener('click', () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  hasSignature = false;
+  placeholder.style.display = 'block';
+  document.getElementById('sigWrapField')?.classList.remove('invalid');
+});
+
+// ---------- Validation + submit ----------
+const form = document.getElementById('appForm');
+const submitBtn = document.getElementById('submitBtn');
+const statusMsg = document.getElementById('statusMsg');
+
+function fieldOf(input){ return input.closest('.field'); }
+
+function validate(){
+  let ok = true;
+  form.querySelectorAll('input[required], select[required], textarea[required]').forEach(inp => {
+    if(inp.type === 'radio') return; // handled separately
+    const f = fieldOf(inp);
+    if(!inp.value || (inp.type==='email' && !/^\S+@\S+\.\S+$/.test(inp.value))){
+      f && f.classList.add('invalid');
+      ok = false;
+    } else {
+      f && f.classList.remove('invalid');
+    }
+  });
+
+  const carChosen = document.querySelector('input[name="ownCar"]:checked');
+  document.getElementById('carErr').style.display = carChosen ? 'none' : 'block';
+  if(!carChosen) ok = false;
+
+  const payChosen = document.querySelector('input[name="payMethod"]:checked');
+  document.getElementById('payErr').style.display = payChosen ? 'none' : 'block';
+  if(!payChosen) ok = false;
+
+  document.getElementById('sigErr').style.display = hasSignature ? 'none' : 'block';
+  if(!hasSignature) ok = false;
+
+  return ok;
+}
+
+function val(id){ return document.getElementById(id).value.trim(); }
+
+function buildMessage(){
+  const carChosen = document.querySelector('input[name="ownCar"]:checked').value;
+  const payChosen = document.querySelector('input[name="payMethod"]:checked').value;
+  return (
+`🏠 *New Rental Application — Anthony Properties & Rentals*
+
+*Applicant:* ${val('firstName')} ${val('lastName')}
+*Email:* ${val('email')}
+*Phone:* ${val('phone')}
+
+*Address:* ${val('address')}, ${val('city')}, ${val('state')} ${val('zip')}
+
+*Move-in date:* ${val('moveDate')}
+*Number of people moving in:* ${val('numPeople')}
+*Number of kids:* ${val('numKids')}
+*Relationship status:* ${val('relStatus')}
+*Reason for leaving:* ${val('reasonLeaving')}
+*Owns a car:* ${carChosen}
+
+*Occupation:* ${val('occupation')}
+*Monthly income:* ${val('income')}
+*Deposit payment date:* ${val('depositDate')}
+*Rent payment date:* ${val('rentDate')}
+
+*Application fee ($75) payment method:* ${payChosen}`
+  );
+}
+
+async function sendToServer(text, signatureDataUrl){
+  const res = await fetch('/api/submit', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ text, signature: signatureDataUrl })
+  });
+  const rawText = await res.text();
+  let data = {};
+  try { data = JSON.parse(rawText); } catch {}
+  if(!res.ok || !data.ok){
+    const detail = data.error || rawText.slice(0, 200) || '(empty response)';
+    throw new Error(`HTTP ${res.status} — ${detail}`);
+  }
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  statusMsg.className = ''; statusMsg.classList.remove('show');
+
+  if(!validate()){
+    statusMsg.textContent = 'Please fill in every field, including your signature.';
+    statusMsg.className = 'show bad';
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+
+  try{
+    const text = buildMessage();
+    const signatureDataUrl = hasSignature ? canvas.toDataURL('image/png') : null;
+    await sendToServer(text, signatureDataUrl);
+    statusMsg.textContent = 'Application received. We will be in touch shortly with instructions for the $75 application fee.';
+    statusMsg.className = 'show ok';
+    form.reset();
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    hasSignature = false;
+    placeholder.style.display = 'block';
+  } catch(err){
+    console.error('Submission failed:', err);
+    statusMsg.textContent = 'Something went wrong: ' + err.message + '. Please try again.';
+    statusMsg.className = 'show bad';
+  } finally {
+    submitBtn.textContent = 'Submit application';
+    submitBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>

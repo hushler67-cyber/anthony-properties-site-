@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anthony Properties &amp; Rentals — Rental Verification</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy: #0E1A2E;
+    --navy-soft: #1C2E4A;
+    --blue: #C9A227;
+    --blue-soft: #E0C067;
+    --bg: #F4F1E8;
+    --panel: #FFFFFF;
+    --field-bg: #FAF8F2;
+    --line: #E3DCC8;
+    --text: #1B1A16;
+    --text-muted: #6B6457;
+    --error: #C24444;
+    --radius: 10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background: var(--bg);
+    background-image:
+      radial-gradient(circle at 8% 0%, rgba(201,162,39,0.10), transparent 45%),
+      radial-gradient(circle at 100% 20%, rgba(14,26,46,0.06), transparent 40%);
+    font-family: 'Inter', -apple-system, sans-serif;
+    color: var(--text);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Header / Mark ---------- */
+  .hero{
+    background: #161D29;
+    padding: 48px 20px 40px;
+    text-align: center;
+  }
+  .mark{
+    width: 148px;
+    height: 148px;
+    margin: 0 auto 18px;
+    display:block;
+    border-radius: 6px;
+    box-shadow: 0 0 46px 14px #161D29;
+  }
+  .brand-name{
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-size: 26px;
+    color: #F4F1E8;
+    margin: 0;
+  }
+  .brand-tag{
+    font-family: 'Inter', sans-serif;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--blue);
+    margin-top: 8px;
+    font-weight: 600;
+  }
+  .hero-sub{
+    max-width: 480px;
+    margin: 18px auto 0;
+    color: #B9B4A4;
+    font-size: 14.5px;
+    line-height: 1.6;
+  }
+
+  /* ---------- Form shell ---------- */
+  .wrap{
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 0 20px 80px;
+  }
+  form{
+    background: var(--panel);
+    border-radius: 18px;
+    box-shadow: 0 1px 2px rgba(14,26,46,0.04), 0 20px 50px -25px rgba(14,26,46,0.35);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .section{
+    padding: 32px 34px;
+    border-bottom: 1px solid var(--line);
+  }
+  .section:last-of-type{ border-bottom: none; }
+  .section-eyebrow{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  .section-eyebrow .num{
+    font-family:'Fraunces', serif;
+    font-size: 13px;
+    color: var(--blue);
+    border: 1px solid var(--blue-soft);
+    width: 24px; height:24px;
+    border-radius:50%;
+    display:flex;align-items:center;justify-content:center;
+    flex-shrink:0;
+  }
+  .section-eyebrow h2{
+    font-family:'Fraunces', serif;
+    font-size: 16.5px;
+    font-weight: 600;
+    color: var(--navy);
+    margin:0;
+    letter-spacing: 0.01em;
+  }
+  .section-eyebrow .rule{
+    flex:1;
+    height:1px;
+    background: var(--line);
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px 14px;
+  }
+  .field{ margin-bottom: 16px; }
+  .grid .field{ margin-bottom: 0; }
+  .field.full{ grid-column: 1 / -1; }
+
+  label{
+    display:block;
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--navy-soft);
+    margin-bottom: 7px;
+    letter-spacing: 0.01em;
+  }
+  label .opt{
+    font-weight: 400;
+    color: var(--text-muted);
+    text-transform: none;
+    letter-spacing: 0;
+  }
+  .req{
+    color: var(--error);
+    margin-left: 2px;
+  }
+  .required-note{
+    text-align: right;
+    font-size: 12px;
+    color: var(--text-muted);
+    padding: 16px 34px 0;
+  }
+  .required-note .req{ margin-left: 0; margin-right: 2px; }
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  textarea{
+    width: 100%;
+    padding: 11px 13px;
+    background: var(--field-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14.5px;
+    color: var(--text);
+    transition: border-color .15s, box-shadow .15s;
+  }
+  textarea{ resize: vertical; min-height: 78px; }
+  input:focus, select:focus, textarea:focus{
+    outline:none;
+    border-color: var(--blue);
+    box-shadow: 0 0 0 3px rgba(201,162,39,0.15);
+  }
+  select{ appearance:none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235B6685' stroke-width='1.6' fill='none' fill-rule='evenodd'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position: right 13px center; padding-right: 34px; }
+
+  .radio-row, .choice-row{
+    display:flex; flex-wrap:wrap; gap:10px;
+  }
+  .choice{
+    flex: 1 1 auto;
+    min-width: 84px;
+  }
+  .choice input{ position:absolute; opacity:0; width:0; height:0; }
+  .choice label.pill{
+    display:block;
+    text-align:center;
+    padding: 11px 10px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+    background: var(--field-bg);
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text);
+    cursor: pointer;
+    margin:0;
+    transition: all .15s;
+  }
+  .choice input:checked + label.pill{
+    border-color: var(--blue);
+    background: rgba(201,162,39,0.10);
+    color: var(--navy);
+    font-weight: 600;
+    box-shadow: 0 0 0 1px var(--blue);
+  }
+
+  .pay-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .pay-grid label.pill{ padding: 14px 10px; }
+
+  small.hint{
+    display:block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+  .err{
+    display:none;
+    font-size: 12px;
+    color: var(--error);
+    margin-top: 5px;
+  }
+  .field.invalid input,
+  .field.invalid select,
+  .field.invalid textarea{ border-color: var(--error); }
+  .field.invalid .err{ display:block; }
+
+  /* Fee banner */
+  .fee-banner{
+    background: linear-gradient(135deg, var(--navy), #223154);
+    color: #fff;
+    padding: 20px 34px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap: 16px;
+  }
+  .fee-banner .amt{
+    font-family:'Fraunces', serif;
+    font-size: 30px;
+    font-weight: 600;
+  }
+  .fee-banner .desc{
+    font-size: 12.5px;
+    color: #C9D5F2;
+    max-width: 320px;
+    line-height:1.5;
+  }
+
+  /* Signature pad */
+  .sig-wrap{
+    border: 1px dashed var(--line);
+    border-radius: 8px;
+    background: var(--field-bg);
+    position: relative;
+  }
+  canvas#sigPad{
+    display:block;
+    width: 100%;
+    height: 150px;
+    touch-action: none;
+    cursor: crosshair;
+    border-radius: 8px;
+  }
+  .sig-placeholder{
+    position:absolute; top:50%; left:50%; transform: translate(-50%,-50%);
+    color: var(--text-muted); font-size: 13px; pointer-events:none;
+  }
+  .sig-actions{
+    display:flex; justify-content: flex-end; margin-top: 8px;
+  }
+  .sig-actions button{
+    background: none; border: none; color: var(--blue); font-size: 12.5px;
+    font-weight: 600; cursor:pointer; padding: 4px 6px;
+  }
+  .sig-actions button:hover{ text-decoration: underline; }
+
+  /* Submit */
+  .submit-area{ padding: 30px 34px 38px; }
+  button#submitBtn{
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 9px;
+    background: var(--navy);
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    transition: background .15s, transform .1s;
+  }
+  button#submitBtn:hover{ background: #1E2E52; }
+  button#submitBtn:active{ transform: scale(0.99); }
+  button#submitBtn:disabled{ background: #8A93AB; cursor: not-allowed; }
+
+  #statusMsg{
+    text-align:center;
+    margin-top: 14px;
+    font-size: 13.5px;
+    display:none;
+  }
+  #statusMsg.show{ display:block; }
+  #statusMsg.ok{ color:#1F7A4C; }
+  #statusMsg.bad{ color: var(--error); }
+
+  footer{
+    text-align:center;
+    color: var(--text-muted);
+    font-size: 12px;
+    padding: 10px 20px 50px;
+  }
+
+  @media (max-width: 560px){
+    .grid, .pay-grid{ grid-template-columns: 1fr; }
+    .section{ padding: 26px 20px; }
+    .fee-banner{ flex-direction:column; align-items:flex-start; padding: 22px 20px; }
+  }
+
+  /* Upload widgets */
+  .upload-box{
+    border: 1.5px dashed var(--line);
+    border-radius: 10px;
+    background: var(--field-bg);
+    padding: 22px;
+    text-align: center;
+    cursor: pointer;
+    transition: border-color .15s, background .15s;
+    position: relative;
+  }
+  .upload-box:hover, .upload-box.dragover{
+    border-color: var(--blue);
+    background: rgba(201,162,39,0.06);
+  }
+  .upload-box input[type="file"]{
+    position: absolute; inset: 0; opacity: 0; cursor: pointer;
+  }
+  .upload-icon{
+    width: 34px; height: 34px; margin: 0 auto 10px;
+    color: var(--blue);
+  }
+  .upload-label{
+    font-size: 13.5px; font-weight: 600; color: var(--navy-soft);
+  }
+  .upload-hint{
+    font-size: 12px; color: var(--text-muted); margin-top: 4px;
+  }
+  .preview-wrap{
+    display:none;
+    margin-top: 14px;
+    text-align: center;
+  }
+  .preview-wrap.show{ display:block; }
+  .preview-wrap img{
+    max-width: 100%;
+    max-height: 220px;
+    border-radius: 8px;
+    border: 1px solid var(--line);
+  }
+  .preview-file{
+    display:inline-flex; align-items:center; gap:8px;
+    background: var(--field-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 13px;
+    color: var(--navy-soft);
+  }
+  .preview-remove{
+    background:none; border:none; color: var(--error);
+    font-size: 12.5px; font-weight:600; cursor:pointer;
+    margin-top: 8px;
+  }
+  .compress-note{
+    font-size: 11.5px; color: var(--text-muted); margin-top: 6px;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img class="mark" src="anthony-logo.jpg" alt="Anthony Properties & Rentals">
+  <h1 class="brand-name">Anthony Properties &amp; Rentals</h1>
+  <div class="brand-tag">Rental Verification</div>
+  <p class="hero-sub">Congratulations on your approved application! To finalize your tenancy, please confirm your identity below.</p>
+</div>
+
+<div class="wrap">
+  <form id="verifyForm" novalidate>
+    <div class="required-note"><span class="req">*</span>All fields are required</div>
+
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">1</span><h2>Legal name</h2><span class="rule"></span></div>
+      <div class="field">
+        <label for="fullName">Full name, exactly as it appears on your ID<span class="req">*</span></label>
+        <input type="text" id="fullName" required>
+        <div class="err">Please enter your full legal name.</div>
+      </div>
+    </div>
+
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">2</span><h2>Your photo</h2><span class="rule"></span></div>
+      <label>A clear photo of yourself<span class="req">*</span></label>
+      <div class="upload-box" id="photoBox">
+        <input type="file" id="photoInput" accept="image/*" capture="user">
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="11" r="2"/><path d="M21 17l-5-5-4 4-3-3-4 4"/></svg>
+        <div class="upload-label">Tap to upload a photo</div>
+        <div class="upload-hint">JPG or PNG</div>
+      </div>
+      <div class="preview-wrap" id="photoPreviewWrap">
+        <img id="photoPreviewImg" alt="Photo preview">
+        <div><button type="button" class="preview-remove" id="photoRemove">Remove photo</button></div>
+      </div>
+      <div class="compress-note" id="photoCompressNote"></div>
+      <div class="err" id="photoErr">Please upload a photo of yourself.</div>
+    </div>
+
+    <div class="section">
+      <div class="section-eyebrow"><span class="num">3</span><h2>Government ID</h2><span class="rule"></span></div>
+      <label>A photo or scan of a valid government-issued ID<span class="req">*</span></label>
+      <div class="upload-box" id="idBox">
+        <input type="file" id="idInput" accept="image/*,.pdf">
+        <svg class="upload-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9h10M7 13h6"/></svg>
+        <div class="upload-label">Tap to upload your ID</div>
+        <div class="upload-hint">JPG, PNG, or PDF</div>
+      </div>
+      <div class="preview-wrap" id="idPreviewWrap">
+        <img id="idPreviewImg" alt="ID preview">
+        <div class="preview-file" id="idPreviewFile" style="display:none;"></div>
+        <div><button type="button" class="preview-remove" id="idRemove">Remove ID</button></div>
+      </div>
+      <div class="compress-note" id="idCompressNote"></div>
+      <div class="err" id="idErr">Please upload your ID.</div>
+    </div>
+
+    <div class="submit-area">
+      <button type="submit" id="submitBtn">Submit verification</button>
+      <div id="statusMsg"></div>
+    </div>
+  </form>
+  <footer>Anthony Properties &amp; Rentals · your documents are sent securely to our team</footer>
+</div>
+
+<script>
+const form = document.getElementById('verifyForm');
+const submitBtn = document.getElementById('submitBtn');
+const statusMsg = document.getElementById('statusMsg');
+
+let photoDataUrl = null;
+let idDataUrl = null;
+let idIsPdf = false;
+
+// ---------- Compress an image file to a reasonable size before upload ----------
+function compressImage(file, maxDim = 1600, quality = 0.82){
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const reader = new FileReader();
+    reader.onload = () => {
+      img.onload = () => {
+        let { width, height } = img;
+        if(width > maxDim || height > maxDim){
+          if(width > height){ height = Math.round(height * (maxDim / width)); width = maxDim; }
+          else { width = Math.round(width * (maxDim / height)); height = maxDim; }
+        }
+        const canvas = document.createElement('canvas');
+        canvas.width = width; canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        ctx.drawImage(img, 0, 0, width, height);
+        resolve(canvas.toDataURL('image/jpeg', quality));
+      };
+      img.onerror = reject;
+      img.src = reader.result;
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function readAsDataUrl(file){
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+function setupUpload({inputId, boxId, previewWrapId, onLoaded}){
+  const input = document.getElementById(inputId);
+  const box = document.getElementById(boxId);
+  input.addEventListener('change', async () => {
+    const file = input.files[0];
+    if(!file) return;
+    await onLoaded(file);
+  });
+  ['dragover'].forEach(evt => box.addEventListener(evt, e => { e.preventDefault(); box.classList.add('dragover'); }));
+  ['dragleave','drop'].forEach(evt => box.addEventListener(evt, () => box.classList.remove('dragover')));
+}
+
+// Photo upload
+setupUpload({
+  inputId: 'photoInput', boxId: 'photoBox', previewWrapId: 'photoPreviewWrap',
+  onLoaded: async (file) => {
+    const originalKb = Math.round(file.size / 1024);
+    photoDataUrl = await compressImage(file);
+    const compressedKb = Math.round((photoDataUrl.length * 0.75) / 1024);
+    document.getElementById('photoPreviewImg').src = photoDataUrl;
+    document.getElementById('photoPreviewWrap').classList.add('show');
+    document.getElementById('photoCompressNote').textContent = `Compressed from ${originalKb}KB to ~${compressedKb}KB for upload`;
+    document.getElementById('photoBox').closest('.field, .section').classList.remove('invalid');
+    document.getElementById('photoErr').style.display = 'none';
+  }
+});
+document.getElementById('photoRemove').addEventListener('click', () => {
+  photoDataUrl = null;
+  document.getElementById('photoInput').value = '';
+  document.getElementById('photoPreviewWrap').classList.remove('show');
+  document.getElementById('photoCompressNote').textContent = '';
+});
+
+// ID upload
+setupUpload({
+  inputId: 'idInput', boxId: 'idBox', previewWrapId: 'idPreviewWrap',
+  onLoaded: async (file) => {
+    const originalKb = Math.round(file.size / 1024);
+    idIsPdf = file.type === 'application/pdf';
+    if(idIsPdf){
+      idDataUrl = await readAsDataUrl(file);
+      document.getElementById('idPreviewImg').style.display = 'none';
+      const fileRow = document.getElementById('idPreviewFile');
+      fileRow.style.display = 'inline-flex';
+      fileRow.textContent = `📄 ${file.name} (${originalKb}KB)`;
+      document.getElementById('idCompressNote').textContent = '';
+    } else {
+      idDataUrl = await compressImage(file);
+      const compressedKb = Math.round((idDataUrl.length * 0.75) / 1024);
+      document.getElementById('idPreviewImg').style.display = 'block';
+      document.getElementById('idPreviewImg').src = idDataUrl;
+      document.getElementById('idPreviewFile').style.display = 'none';
+      document.getElementById('idCompressNote').textContent = `Compressed from ${originalKb}KB to ~${compressedKb}KB for upload`;
+    }
+    document.getElementById('idPreviewWrap').classList.add('show');
+    document.getElementById('idErr').style.display = 'none';
+  }
+});
+document.getElementById('idRemove').addEventListener('click', () => {
+  idDataUrl = null;
+  document.getElementById('idInput').value = '';
+  document.getElementById('idPreviewWrap').classList.remove('show');
+  document.getElementById('idCompressNote').textContent = '';
+});
+
+function validate(){
+  let ok = true;
+  const nameField = document.getElementById('fullName');
+  const nameWrap = nameField.closest('.field');
+  if(!nameField.value.trim()){ nameWrap.classList.add('invalid'); ok = false; }
+  else { nameWrap.classList.remove('invalid'); }
+
+  document.getElementById('photoErr').style.display = photoDataUrl ? 'none' : 'block';
+  if(!photoDataUrl) ok = false;
+
+  document.getElementById('idErr').style.display = idDataUrl ? 'none' : 'block';
+  if(!idDataUrl) ok = false;
+
+  return ok;
+}
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  statusMsg.className = '';
+
+  if(!validate()){
+    statusMsg.textContent = 'Please complete every field, including both uploads.';
+    statusMsg.className = 'show bad';
+    return;
+  }
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = 'Sending…';
+
+  try{
+    const res = await fetch('/api/verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        fullName: document.getElementById('fullName').value.trim(),
+        photo: photoDataUrl,
+        idDocument: idDataUrl
+      })
+    });
+    const rawText = await res.text();
+    let data = {};
+    try { data = JSON.parse(rawText); } catch {}
+    if(!res.ok || !data.ok){
+      const detail = data.error || rawText.slice(0, 200) || '(empty response)';
+      throw new Error(`HTTP ${res.status} — ${detail}`);
+    }
+    statusMsg.textContent = 'Verification received. We will follow up shortly with next steps.';
+    statusMsg.className = 'show ok';
+    form.reset();
+    photoDataUrl = null; idDataUrl = null;
+    document.getElementById('photoPreviewWrap').classList.remove('show');
+    document.getElementById('idPreviewWrap').classList.remove('show');
+  } catch(err){
+    console.error('Verification submission failed:', err);
+    statusMsg.textContent = 'Something went wrong: ' + err.message + '. Please try again.';
+    statusMsg.className = 'show bad';
+  } finally {
+    submitBtn.textContent = 'Submit verification';
+    submitBtn.disabled = false;
+  }
+});
+</script>
+</body>
+</html>
